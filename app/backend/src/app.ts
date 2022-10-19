@@ -1,5 +1,5 @@
 import * as express from 'express';
-// import 'express-async-errors';
+import 'express-async-errors';
 import loginRouter from './router/loginRouter';
 
 class App {
