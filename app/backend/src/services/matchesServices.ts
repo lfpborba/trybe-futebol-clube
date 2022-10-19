@@ -3,6 +3,7 @@ import TeamModel from '../database/models/team';
 import MatchesModel from '../database/models/match';
 import MatchInterface from '../interfaces/matchInterface';
 import MatchData from '../helpers/matchData';
+import MatchUpdatedData from '../interfaces/matchUpdatedData';
 
 const findAllOptions: FindOptions = {
   include: [
@@ -25,6 +26,15 @@ export default class MatchesServices {
     const createdMatch = await MatchesModel.create(match.allAttributes);
 
     return createdMatch;
+  }
+
+  static async updateMatch(matchUpdated: MatchUpdatedData) {
+    const { id, homeTeamGoals, awayTeamGoals } = matchUpdated;
+    
+    await MatchesModel.update(
+      { homeTeamGoals, awayTeamGoals },
+      { where: { id } },
+    );
   }
 
   static async finish(id: number) {
