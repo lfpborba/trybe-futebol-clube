@@ -1,5 +1,5 @@
 import MatchInterface from '../interfaces/matchInterface';
-import ValidationErrorHandler from './ValidationErrorHandler'
+import ValidationErrorHandler from './ValidationErrorHandler';
 import TeamsService from '../services/teamServices';
 
 export default class Match {
@@ -30,7 +30,10 @@ export default class Match {
     const awayTeam = this._awayTeam;
 
     if (homeTeam === awayTeam) {
-      throw new ValidationErrorHandler(401, 'It is not possible to create a match with two equal teams');
+      throw new ValidationErrorHandler(
+        401,
+        'It is not possible to create a match with two equal teams',
+      );
     }
 
     const teamsIds = await TeamsService.getAllIds();
@@ -40,7 +43,6 @@ export default class Match {
   }
 
   public get allAttributes() {
-
     return {
       homeTeam: this._homeTeam,
       awayTeam: this._awayTeam,

@@ -24,6 +24,6 @@ export default class MatchesServices {
 
     const createdMatch = await MatchesModel.create(match.allAttributes);
 
-    return createdMatch
+    return createdMatch;
   }
 }
