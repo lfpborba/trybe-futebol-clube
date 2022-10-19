@@ -1,15 +1,19 @@
 import { Request, Response } from 'express';
+import CustomRequest from '../interfaces/customRequest';
 import LoginService from '../services/loginServices';
 
 export default class LoginController {
-  private _LoginService: LoginService;
+  static async login(req: Request, res: Response) {
+    const { email, password } = req.body;
+    
+    const token = await LoginService.login(email, password);
 
-  constructor() {
-    this._LoginService = new LoginService();
+    return res.status(200).json({ token });
   }
 
-  login = async (_req: Request, res: Response) => {
-    const users = await this._LoginService.login();
-    return res.status(200).json(users);
-  };
+  static loginValidate(req: CustomRequest, res: Response) {
+    const { user } = req;
+    
+    return res.status(200).json({ role: user?.role });
+  }
 }
