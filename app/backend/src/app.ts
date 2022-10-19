@@ -1,6 +1,8 @@
 import * as express from 'express';
 import 'express-async-errors';
+import { Request, Response, NextFunction } from 'express';
 import loginRouter from './router/loginRouter';
+import ValidationErrorHandler from './helpers/ValidationErrorHandler';
 
 class App {
   public app: express.Express;
@@ -13,6 +15,12 @@ class App {
     // Não remover essa rota
     this.app.get('/', (_req, res) => res.json({ ok: true }));
     this.app.use('/login', loginRouter);
+    this.app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+      if (err instanceof ValidationErrorHandler) {
+        return res.status(err.statusCode).json({ message: err.message });
+      }
+      return res.status(500).json({ message: 'Internal server error' });
+    });
   }
 
   private config():void {
