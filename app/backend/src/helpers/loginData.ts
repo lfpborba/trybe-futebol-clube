@@ -21,12 +21,14 @@ export default class LoginDTO {
   }
 
   private validateEmail(): void {
-    const email = this._email
+    const email = this._email;
     if (!email || email === '') throw new ValidationErrorHandler(400, 'All fields must be filled');
   }
 
   private validatePassword(): void {
-    const password = this._password
-    if(!password || password ==='') throw new ValidationErrorHandler(400, 'All fields must be filled');
+    const password = this._password;
+    if (!password || password === '') {
+      throw new ValidationErrorHandler(400, 'All fields must be filled');
+    }
   }
 }
