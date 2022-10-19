@@ -15,4 +15,11 @@ export default class TeamsServices {
 
     return team;
   }
+
+  static async getAllIds(): Promise<number[]> {
+    const teamsIds = await TeamModel.findAll();
+    const idsData = teamsIds.map((team) => team.id);
+
+    return idsData as number[];
+  }
 }
