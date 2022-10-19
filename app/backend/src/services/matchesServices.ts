@@ -30,7 +30,7 @@ export default class MatchesServices {
 
   static async updateMatch(matchUpdated: MatchUpdatedData) {
     const { id, homeTeamGoals, awayTeamGoals } = matchUpdated;
-    
+
     await MatchesModel.update(
       { homeTeamGoals, awayTeamGoals },
       { where: { id } },

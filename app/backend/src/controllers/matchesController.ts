@@ -15,10 +15,10 @@ export default class MatchesController {
   }
 
   static async updatedMatch(req: Request, res: Response) {
-    const matchUpdated = { id: Number(req.params.id), ...req.body }
+    const matchUpdated = { id: Number(req.params.id), ...req.body };
     await MatchesServices.updateMatch(matchUpdated);
-    
-    return res.status(200).json({ message: 'Match updated successfully' })
+
+    return res.status(200).json({ message: 'Match updated successfully' });
   }
 
   static async finish(req: Request, res: Response) {
