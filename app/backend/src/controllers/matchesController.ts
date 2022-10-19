@@ -7,4 +7,10 @@ export default class MatchesController {
 
     return res.status(200).json(matches);
   }
+
+  static async create(req: Request, res: Response) {
+    const matchData = req.body;
+    const createdMatch = await MatchesServices.create(matchData);
+    return res.status(201).json(createdMatch);
+  }
 }
