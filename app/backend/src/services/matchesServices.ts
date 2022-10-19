@@ -31,6 +31,6 @@ export default class MatchesServices {
     await MatchesModel.update(
       { inProgress: false },
       { where: { id } },
-    )
+    );
   }
 }
