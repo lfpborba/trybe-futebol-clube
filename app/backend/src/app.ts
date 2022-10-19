@@ -3,6 +3,7 @@ import 'express-async-errors';
 import { Request, Response, NextFunction } from 'express';
 import loginRouter from './router/loginRouter';
 import teamsRouter from './router/teamsRouter';
+import matchesRouter from './router/matchesRouter';
 import ValidationErrorHandler from './helpers/ValidationErrorHandler';
 
 class App {
@@ -17,6 +18,7 @@ class App {
     this.app.get('/', (_req, res) => res.json({ ok: true }));
     this.app.use('/login', loginRouter);
     this.app.use('/teams', teamsRouter);
+    this.app.use('/matches', matchesRouter);
     this.app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
       if (err instanceof ValidationErrorHandler) {
         return res.status(err.statusCode).json({ message: err.message });
