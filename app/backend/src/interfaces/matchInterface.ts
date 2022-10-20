@@ -1,3 +1,5 @@
+import TeamInterface from "./teamInterface";
+
 export default interface MatchInterface {
   id?: number;
   homeTeam: number;
