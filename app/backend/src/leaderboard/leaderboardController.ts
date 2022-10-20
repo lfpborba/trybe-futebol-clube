@@ -7,6 +7,7 @@ class LeaderController {
     const result = await this.service.homeLeader();
     return res.status(200).json(result);
   };
+
   public awayBoard = async (req: Request, res: Response): Promise<Response> => {
     const result = await this.service.awayLeader();
     return res.status(200).json(result);

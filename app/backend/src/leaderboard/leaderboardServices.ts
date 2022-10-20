@@ -41,7 +41,7 @@ class LeaderService {
     const orderlyHomeBoard = orderboard(homeBoard);
     return orderlyHomeBoard as unknown as ILeader[];
   };
-  
+
   awayLeader = async (): Promise<ILeader[]> => {
     const allTeams = await this.getAllTeams();
     const awayBoard = (allTeams.map((team: any) => ({
