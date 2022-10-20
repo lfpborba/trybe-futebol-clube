@@ -1,14 +1,10 @@
 import { Request, Response } from 'express';
-import LeaderServices from '../services/leaderbordServices';
+import LeaderbordService from '../services/leaderbordServices';
 
-class LeaderController {
-  service = new LeaderServices();
+export default class LeaderbordController {
+  public static async getHomeLeaderbord(req: Request, res: Response) {
+    const homeLeaderbord = await LeaderbordService.getHomeLeaderbord();
 
-  public leaderBoard = async (req: Request, res: Response): Promise<Response> => {
-    const result = await this.service.homeLeader();
-
-    return res.status(200).json(result);
-  };
+    return res.status(200).json(homeLeaderbord);
+  }
 }
-
-export default LeaderController;

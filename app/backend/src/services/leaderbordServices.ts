@@ -1,43 +1,37 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import calculate from '../helpers/calculate';
-import orderBoard from '../helpers/orderboard';
-import ScoreleaderInterface from '../interfaces/leaderboardInterface';
-import Matches from '../database/models/match';
-import Teams from '../database/models/team';
+import TeamsService from './teamServices';
+import MatchesService from './matchesServices';
+import TeamResults from '../helpers/teamResultData';
+import MatchInterface from '../interfaces/matchInterface';
+import TeamResultsInterface from '../interfaces/teamResultsInterface';
 
-class LeaderService {
-  getAllTeams = async (): Promise<any> => {
-    const result = await Teams.findAll({
-      include: [{
-        model: Matches,
-        association: 'teamHome',
-        where: { inProgress: false },
-        attributes: ['homeTeamGoals', 'awayTeamGoals'],
-      }],
+export default class LeaderboardService {
+  public static async getHomeLeaderbord(): Promise<TeamResultsInterface[]> {
+    const teams = await TeamsService.getAll();
+    const matches = await MatchesService.getAll();
+
+    const homeLeaderbord = teams.map((team) => {
+      const teamResults = new TeamResults(team, matches as unknown as MatchInterface[]);
+      return teamResults.homeResults;
     });
-    return result;
-  };
 
-  homeLeader = async (): Promise<ScoreleaderInterface[]> => {
-    const allTeams = await this.getAllTeams();
+    return LeaderboardService.sortResults(homeLeaderbord);
+  }
 
-    const board = (allTeams.map((team: any) => ({
-      name: team.teamName,
-      totalPoints: calculate.points(team),
-      totalGames: calculate.games(team),
-      totalVictories: calculate.victories(team),
-      totalDraws: calculate.draws(team),
-      totalLosses: calculate.losses(team),
-      goalsFavor: calculate.favorGoals(team),
-      goalsOwn: calculate.ownGoals(team),
-      goalsBalance: (calculate.favorGoals(team) - calculate.ownGoals(team)),
-      efficiency: Number((calculate.points(team) / (calculate.games(team) * 3)) * 100).toFixed(2),
-    })));
-
-    const orderlyBoard = orderBoard(board);
-
-    return orderlyBoard as unknown as ScoreleaderInterface[];
-  };
+  private static sortResults(leaderboard: TeamResultsInterface[]) {
+    return leaderboard.sort((a, b) => {
+      if (a.totalPoints === b.totalPoints) {
+        if (a.totalVictories === b.totalVictories) {
+          if (a.goalsBalance === b.goalsBalance) {
+            if (a.goalsFavor === b.goalsFavor) {
+              return a.goalsOwn - b.goalsOwn;
+            }
+            return b.goalsFavor - a.goalsFavor;
+          }
+          return b.goalsBalance - a.goalsBalance;
+        }
+        return b.totalVictories - a.totalVictories;
+      }
+      return b.totalPoints - a.totalPoints;
+    });
+  }
 }
-
-export default LeaderService;
