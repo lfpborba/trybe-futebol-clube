@@ -1,5 +1,5 @@
 import * as chai from 'chai';
-import chaiHttp = require('chai-http');
+import * as chaiHttp from 'chai-http'
 import { app } from '../app';
 import { Response } from 'superagent';
 
@@ -75,8 +75,6 @@ describe('Testa endpoint /login', () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/login')
-        // .type('form') // quando e o metodo post de criação, deve ter o tipo form. como e a filtragem de login não e necessário
-        // .set('content-type', 'application/json') Para fins de estudos deixar aqui
         .send(loginCorrect)
         .then((res) => {
           expect(res.status).to.be.equal(TestDescription.success);
