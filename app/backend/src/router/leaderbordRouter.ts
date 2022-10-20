@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import leaderbordController from '../controllers/leaderbordController';
+import LeaderController from '../controllers/leaderbordController';
 
-const leaderbordRouter = Router();
+const leaderRoute = Router();
+const controller = new LeaderController();
 
-leaderbordRouter.get('/home', leaderbordController.getHomeLeaderbord);
+leaderRoute.get('/home', controller.leaderBoard);
 
-export default leaderbordRouter;
+export default leaderRoute;
