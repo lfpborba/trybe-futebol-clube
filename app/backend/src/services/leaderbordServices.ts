@@ -13,7 +13,7 @@ export default class LeaderboardService {
       const teamResults = new TeamResults(team, matches as unknown as MatchInterface[]);
       return teamResults.homeResults;
     });
-    
+
     return LeaderboardService.sortResults(homeLeaderbord);
   }
 
